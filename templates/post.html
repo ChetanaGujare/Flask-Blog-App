@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <a href="{{ url_for('home') }}" class="back-link">&larr; Back to Home</a>
+    
+    <article class="single-post">
+        <h1 class="post-title">{{ post.title }}</h1>
+        <p class="post-meta">By {{ post.author }}</p>
+        <div class="post-content">
+            <p>{{ post.content }}</p>
+        </div>
+    </article>
+
+    <section class="comments-section">
+        <h3>Comments ({{ comments|length }})</h3>
+        
+        <div class="comments-list">
+            <!-- Loop to show comments -->
+            {% for comment in comments %}
+                <div class="comment">
+                    <strong>{{ comment.author }}</strong>
+                    <p>{{ comment.text }}</p>
+                </div>
+            {% else %}
+                <p class="no-comments">No comments yet. Be the first to comment!</p>
+            {% endfor %}
+        </div>
+
+        <!-- Comment Form -->
+        <div class="comment-form-container">
+            <h4>Leave a Comment</h4>
+            <form action="{{ url_for('add_comment', post_id=post.id) }}" method="POST">
+                <div class="form-group">
+                    <label for="author">Name:</label>
+                    <input type="text" id="author" name="author" required placeholder="Your Name">
+                </div>
+                <div class="form-group">
+                    <label for="text">Comment:</label>
+                    <textarea id="text" name="text" required rows="4" placeholder="Write your comment here..."></textarea>
+                </div>
+                <button type="submit" class="btn-submit">Submit Comment</button>
+            </form>
+        </div>
+    </section>
+{% endblock %}
